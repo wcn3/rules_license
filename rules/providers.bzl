@@ -16,10 +16,10 @@
 LicenseKindInfo = provider(
     doc = """Provides information about a license_kind instance.""",
     fields = {
-        "conditions": "list(string): List of conditions to be met when using this packages under this license.",
-        "label": "Label: The full path to the license kind definition.",
-        "long_name": "string: Human readable license name",
         "name": "string: Canonical license name",
+        "long_name": "string: Human readable license name",
+        "label": "Label: The full path to the license kind definition.",
+        "conditions": "list(string): List of conditions to be met when using this packages under this license.",
     },
 )
 
@@ -27,14 +27,11 @@ LicenseInfo = provider(
     doc = """Provides information about a license instance.""",
     fields = {
         "copyright_notice": "string: Human readable short copyright notice",
-        "label": "Label: label of the license rule",
         "license_kinds": "list(LicenseKindInfo): License kinds ",
         "license_text": "string: The license file path",
-        "namespace": "string: namespace of the license rule",
-        # TODO(aiuto): move to PackageInfo
         "package_name": "string: Human readable package name",
-        "package_url": "URL from which this package was downloaded.",
-        "package_version": "Human readable version string",
+        "label": "Label: label of the license rule",
+        "namespace": "string: namespace of the license rule",
     },
 )
 

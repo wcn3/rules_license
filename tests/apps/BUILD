@@ -2,17 +2,14 @@
 
 load("@rules_license//rules:compliance.bzl", "licenses_used")
 
-package(default_visibility = ["//examples:__subpackages__"])
+package(default_visibility = ["//tests:__subpackages__"])
 
-# Note that the app explicitly depends only on a library and some legacy
-# style licensed code.
+# Note that the app explicitly depends only on a library
 cc_binary(
     name = "an_app",
     srcs = ["an_app.cc"],
     deps = [
         ":level4",
-        # "@rules_license//rules/tests/legacy:another_library_with_legacy_license_clause",
-        # "@rules_license//rules/tests/legacy:library_with_legacy_license_clause",
     ],
 )
 
@@ -46,7 +43,7 @@ END
         name = "level%d" % level,
         srcs = [":level_%d.cc" % level],
         deps = [
-            (":level%d" % (level - 1) if level > 0 else "@rules_license//tests/thrdparty:new_style_lib"),
+            (":level%d" % (level - 1) if level > 0 else "//tests/thrdparty:new_style_lib"),
         ],
     )
     for level in range(5)
@@ -65,6 +62,6 @@ py_test(
     data = [":an_app_licenses.json"],
     python_version = "PY3",
     deps = [
-        "@rules_license//tests:license_test_utils",
+        "//tests:license_test_utils",
     ],
 )

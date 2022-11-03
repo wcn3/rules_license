@@ -28,7 +28,7 @@ license(
     name = "license",
     package_name = "Trivial Code Generator",
     license_kinds = [
-        "@rules_license//examples/my_org/licenses:generic_restricted",
+        "//examples/my_org/licenses:generic_restricted",
     ],
     license_text = "LICENSE",
 )
@@ -37,7 +37,7 @@ license(
     name = "license_for_emitted_code",
     package_name = "Trivial Code Generator Output",
     license_kinds = [
-        "@rules_license//examples/my_org/licenses:unencumbered",
+        "//examples/my_org/licenses:unencumbered",
     ],
     license_text = "LICENSE.on_output",
 )

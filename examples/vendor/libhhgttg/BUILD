@@ -24,7 +24,7 @@ package(default_applicable_licenses = [":license"])
 license(
     name = "license",
     license_kinds = [
-        "@rules_license//examples/my_org/licenses:generic_notice",
+        "//examples/my_org/licenses:generic_notice",
     ],
     license_text = "LICENSE",
 )

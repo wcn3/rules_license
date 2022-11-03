@@ -50,17 +50,6 @@ _license = rule(
                   " This may be used to produce an index of OSS packages used by" +
                   " an applicatation.",
         ),
-        "package_url": attr.string(
-            doc = "The URL this instance of the package was download from." +
-                  " This may be used to produce an index of OSS packages used by" +
-                  " an applicatation.",
-        ),
-        "package_version": attr.string(
-            doc = "A human readable version string identifying this package." +
-                  " This may be used to produce an index of OSS packages used" +
-                  " by an applicatation.  It should be a value that" +
-                  " increases over time, rather than a commit hash."
-        ),
         "namespace": attr.string(
             doc = "A human readable name used to organize licenses into categories." +
                   " This is used in google3 to differentiate third party licenses used" +
@@ -79,8 +68,6 @@ def license(
         license_kinds = None,
         copyright_notice = None,
         package_name = None,
-        package_url = None,
-        package_version = None,
         namespace = "compliance",
         tags = []):
     """Wrapper for license rule.
@@ -116,8 +103,6 @@ def license(
         license_text = license_text,
         copyright_notice = copyright_notice,
         package_name = package_name,
-        package_url = package_url,
-        package_version = package_version,
         namespace = namespace,
         applicable_licenses = [],
         visibility = visibility,

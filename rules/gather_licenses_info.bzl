@@ -28,16 +28,6 @@ load(
 # based on the namespace to which they belong.
 NAMESPACES = ["compliance"]
 
-def _strip_null_repo(label):
-    """Removes the null repo name (e.g. @//) from a string.
-
-    The is to make str(label) compatible between bazel 5.x and 6.x
-    """
-    s = str(label)
-    if s.startswith('@//'):
-        return s[1:]
-    return s
-
 def _gather_licenses_info_impl(target, ctx):
     return gather_licenses_info_common(target, ctx, TransitiveLicensesInfo, NAMESPACES, should_traverse)
 
@@ -181,8 +171,6 @@ def licenses_info_to_json(licenses_info):
         ],
         "copyright_notice": "{copyright_notice}",
         "package_name": "{package_name}",
-        "package_url": "{package_url}",
-        "package_version": "{package_version}",
         "license_text": "{license_text}",
         "used_by": [
           {used_by}
@@ -204,7 +192,7 @@ def licenses_info_to_json(licenses_info):
         for license in dep_licenses:
             if license not in used_by:
                 used_by[license] = []
-            used_by[license].append(_strip_null_repo(dep.target_under_license))
+            used_by[license].append(dep.target_under_license)
 
     all_licenses = []
     for license in sorted(licenses_info.licenses.to_list(), key = lambda x: x.label):
@@ -224,9 +212,7 @@ def licenses_info_to_json(licenses_info):
                 kinds = ",".join(kinds),
                 license_text = text_path,
                 package_name = license.package_name,
-                package_url = license.package_url,
-                package_version = license.package_version,
-                label = _strip_null_repo(license.label),
+                label = license.label,
                 used_by = ",\n          ".join(sorted(['"%s"' % x for x in used_by[str(license.label)]])),
             ))
 
@@ -237,12 +223,12 @@ def licenses_info_to_json(licenses_info):
         # Undo the concatenation applied when stored in the provider.
         dep_licenses = dep.licenses.split(",")
         all_deps.append(dep_template.format(
-            target_under_license = _strip_null_repo(dep.target_under_license),
-            licenses = ",\n          ".join(sorted(['"%s"' % _strip_null_repo(x) for x in dep_licenses])),
+            target_under_license = dep.target_under_license,
+            licenses = ",\n          ".join(sorted(['"%s"' % x for x in dep_licenses])),
         ))
 
     return [main_template.format(
-        top_level_target = _strip_null_repo(licenses_info.target_under_license),
+        top_level_target = licenses_info.target_under_license,
         dependencies = ",".join(all_deps),
         licenses = ",".join(all_licenses),
     )]

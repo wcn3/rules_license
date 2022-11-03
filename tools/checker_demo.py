@@ -26,7 +26,7 @@ import json
 _ALWAYS_ALLOWED_CONDITIONS = frozenset(['notice', 'permissive', 'unencumbered'])
 
 
-def _load_license_data(licenses_info):
+def _get_licenses(licenses_info):
   with codecs.open(licenses_info, encoding='utf-8') as licenses_file:
     return json.loads(licenses_file.read())
 
@@ -85,12 +85,11 @@ def _check_conditions(out, licenses, allowed_conditions):
 
 
 def _do_copyright_notices(out, licenses):
-  for l in licenses:
+  for l in unique_licenses(licenses):
     name = l.get('package_name') or '<unknown>'
     if l.get('package_version'):
       name =  name + "/" + l['package_version']
     # IGNORE_COPYRIGHT: Not a copyright notice. It is a variable holding one.
-    print(l)
     out.write('package(%s), copyright(%s)\n' % (name, l['copyright_notice']))
 
 
@@ -116,14 +115,7 @@ def main():
                       help='check that the dep only includes allowed license conditions')
   args = parser.parse_args()
 
-  license_data = _load_license_data(args.licenses_info)
-  target = license_data[0]  # we assume only one target for the demo
-
-  top_level_target = target['top_level_target']
-  dependencies = target['dependencies']
-  licenses = target['licenses']
-  print(licenses)
-
+  licenses = _get_licenses(args.licenses_info)
   err = 0
   with codecs.open(args.report, mode='w', encoding='utf-8') as rpt:
     _do_report(rpt, licenses)

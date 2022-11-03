@@ -14,7 +14,7 @@
 # Examples of applications and interactions with licenses
 
 load("@rules_license//rules:compliance.bzl", "check_license", "licenses_used")
-load("@rules_license//examples/vendor/constant_gen:defs.bzl", "constant_gen")
+load("//examples/vendor/constant_gen:defs.bzl", "constant_gen")
 
 cc_binary(
     name = "my_server",
@@ -56,6 +56,6 @@ py_test(
     data = [":server_licenses.json"],
     python_version = "PY3",
     deps = [
-        "@rules_license//tests:license_test_utils",
+        "//tests:license_test_utils",
     ],
 )

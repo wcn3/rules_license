@@ -81,7 +81,6 @@ _check_license = rule(
     },
 )
 
-# TODO(b/152546336): Update the check to take a pointer to a condition list.
 def check_license(**kwargs):
     _check_license(**kwargs)
 

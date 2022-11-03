@@ -5,13 +5,7 @@ load("@rules_license//rules:compliance.bzl", "check_license", "licenses_used")
 load("@rules_license//rules:license.bzl", "license")
 load("@rules_license//rules:license_kind.bzl", "license_kind")
 
-package(
-    default_applicable_licenses = [":license"],
-    default_visibility = [
-        "//examples:__subpackages__",
-        "//tests:__subpackages__",
-    ],
-)
+package(default_applicable_licenses = [":license"])
 
 # license_kind rules generally appear in a central location per workspace. They
 # are intermingled with normal target build rules
@@ -36,10 +30,6 @@ license(
     # Note the UTF-8 encoded copyright symbol.
     copyright_notice = "Copyright © 2019 Uncle Toasty",
     license_kinds = [":generic_notice_license"],
-    # Note. This need not be precise. If a downloader creates the license
-    # clause for you, then it should use the absolute download URL.
-    package_url = "http://github.com/bazelbuild/rules_license",
-    package_version = "0.0.4",
 )
 
 license(
@@ -75,10 +65,8 @@ cc_library(
         ":license_for_extra_feature",
         ":internal_non_compliance_license",
     ],
-    #deps = [
-    #    "@rules_license//rules/tests/legacy:another_library_with_legacy_license_clause",
-    #    "@rules_license//rules/tests/legacy:library_with_legacy_license_clause",
-    #],
+    deps = [
+    ],
 )
 
 java_binary(
@@ -88,6 +76,7 @@ java_binary(
     applicable_licenses = [
         ":license_for_extra_feature",
     ],
+    javacopts = ["-Xep:DefaultPackage:OFF"],
     main_class = "Hello",
     deps = [
         ":j_bar",
@@ -97,6 +86,7 @@ java_binary(
 java_library(
     name = "j_bar",
     srcs = ["Bar.java"],
+    javacopts = ["-Xep:DefaultPackage:OFF"],
 )
 
 check_license(
@@ -130,6 +120,10 @@ py_library(
     name = "license_test_utils",
     srcs = ["license_test_utils.py"],
     srcs_version = "PY3",
+    visibility = [
+        "//examples:__subpackages__",
+        "//tests:__subpackages__",
+    ],
 )
 
 check_license(

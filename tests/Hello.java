@@ -23,10 +23,7 @@ final class Hello {
   private Hello() {
   }
 
-  int whatIsPi() {
+  public static int main(String[] args) {
     return Bar.PI;
-  }
-
-  public static void main(String[] args) {
   }
 }

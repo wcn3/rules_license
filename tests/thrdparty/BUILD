@@ -5,8 +5,7 @@ load("@rules_license//rules:license.bzl", "license")
 package(
     default_applicable_licenses = [":license"],
     default_visibility = [
-        "//examples:__subpackages__",
-        "//tests:__subpackages__",
+      "//tests:__subpackages__",
     ],
 )
 
@@ -14,7 +13,6 @@ package(
 license(
     name = "license",
     package_name = "migrated package",
-    license_kinds = ["//licenses/generic:restricted"],
     license_text = "LICENSE",
 )
 

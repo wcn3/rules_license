@@ -154,7 +154,7 @@ def gather_licenses_info_common(target, ctx, provider_factory, namespaces, filte
     _get_transitive_licenses(ctx, trans_licenses, trans_deps, traces, provider_factory, filter_func)
 
     if not licenses and not trans_licenses:
-        return [provider_factory(deps = depset(), licenses = depset(), traces = [])]
+        return [provider_factory(target_under_license = target.label, deps = depset(), licenses = depset(), traces = [])]
 
     # If this is the target, start the sequence of traces.
     if ctx.attr._trace[TraceInfo].trace and ctx.attr._trace[TraceInfo].trace in str(ctx.label):
